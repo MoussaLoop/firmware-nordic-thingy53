@@ -32,66 +32,67 @@
 #ifndef _EI_CLASSIFIER_MODEL_VARIABLES_H_
 #define _EI_CLASSIFIER_MODEL_VARIABLES_H_
 
+/**
+ * @file
+ *  Auto-generated complete impulse definitions. The ei_impulse_handle_t should
+ *  be passed to ei_run_classifier() function to use this specific impulse.
+ *  This file should only be included in ei_run_classifier.h file.
+ */
+
 #include <stdint.h>
 #include "model_metadata.h"
-#include "anomaly_metadata.h"
-#include "tflite-model/tflite_learn_3_compiled.h"
 
+#include "tflite-model/tflite_learn_160_compiled.h"
 #include "edge-impulse-sdk/classifier/ei_model_types.h"
 #include "edge-impulse-sdk/classifier/inferencing_engines/engines.h"
 
-const char* ei_classifier_inferencing_categories[] = { "idle", "snake", "updown", "wave" };
+const char* ei_classifier_inferencing_categories[] = { "baby_cry", "indoor_room_noises", "unknown" };
 
-uint8_t ei_dsp_config_2_axes[] = { 0, 1, 2 };
-const uint8_t ei_dsp_config_2_axes_size = 3;
-ei_dsp_config_spectral_analysis_t ei_dsp_config_2 = {
-    2, // uint32_t blockId
-    2, // int implementationVersion
-    3, // int length of axes
-    1.0f, // float scale-axes
-    1, // int input-decimation-ratio
-    "none", // select filter-type
-    3.0f, // float filter-cutoff
-    6, // int filter-order
-    "FFT", // select analysis-type
-    16, // int fft-length
-    3, // int spectral-peaks-count
-    0.1f, // float spectral-peaks-threshold
-    "0.1, 0.5, 1.0, 2.0, 5.0", // string spectral-power-edges
-    true, // boolean do-log
-    true, // boolean do-fft-overlap
-    1, // int wavelet-level
-    "db4", // select wavelet
-    false // boolean extra-low-freq
+ei_dsp_named_axis_t ei_dsp_config_159_named_axes[] = {
+    { .name = "Signal", .axis = 0 }
+};
+size_t ei_dsp_config_159_named_axes_size = 1;
+uint8_t ei_dsp_config_159_axes[] = { 0 };
+const uint32_t ei_dsp_config_159_axes_size = 1;
+ei_dsp_config_spectrogram_t ei_dsp_config_159 = {
+    159, // uint32_t blockId
+    4, // int implementationVersion
+    1, // int length of axes
+    ei_dsp_config_159_named_axes, // named axes
+    ei_dsp_config_159_named_axes_size, // size of the named axes array
+    0.05f, // float frame_length
+    0.025f, // float frame_stride
+    128, // int fft_length
+    -52, // int noise_floor_db
+    true // boolean show_axes
 };
 
 const uint8_t ei_dsp_blocks_size = 1;
 ei_model_dsp_t ei_dsp_blocks[ei_dsp_blocks_size] = {
-    { // DSP block 2
-        2,
-        33, // output size
-        &extract_spectral_analysis_features, // DSP function pointer
-        (void*)&ei_dsp_config_2, // pointer to config struct
-        ei_dsp_config_2_axes, // array of offsets into the input stream, one for each axis
-        ei_dsp_config_2_axes_size, // number of axes
+    { // DSP block 159
+        159,
+        1235, // output size
+        &extract_spectrogram_features, // DSP function pointer
+        (void*)&ei_dsp_config_159, // pointer to config struct
+        ei_dsp_config_159_axes, // array of offsets into the input stream, one for each axis
+        ei_dsp_config_159_axes_size, // number of axes
         1, // version
         nullptr, // factory function
     }
 };
-const ei_config_tflite_eon_graph_t ei_config_tflite_graph_3 = {
+const ei_config_tflite_eon_graph_t ei_config_tflite_graph_160 = {
     .implementation_version = 1,
-    .model_init = &tflite_learn_3_init,
-    .model_invoke = &tflite_learn_3_invoke,
-    .model_reset = &tflite_learn_3_reset,
-    .model_input = &tflite_learn_3_input,
-    .model_output = &tflite_learn_3_output,
+    .model_init = &tflite_learn_160_init,
+    .model_invoke = &tflite_learn_160_invoke,
+    .model_reset = &tflite_learn_160_reset,
+    .model_input = &tflite_learn_160_input,
+    .model_output = &tflite_learn_160_output,
 };
 
-
-const ei_learning_block_config_tflite_graph_t ei_learning_block_config_3 = {
+const ei_learning_block_config_tflite_graph_t ei_learning_block_config_160 = {
     .implementation_version = 1,
     .classification_mode = EI_CLASSIFIER_CLASSIFICATION_MODE_CLASSIFICATION,
-    .block_id = 3,
+    .block_id = 160,
     .object_detection = 0,
     .object_detection_last_layer = EI_CLASSIFIER_LAST_LAYER_UNKNOWN,
     .output_data_tensor = 0,
@@ -100,45 +101,22 @@ const ei_learning_block_config_tflite_graph_t ei_learning_block_config_3 = {
     .threshold = 0,
     .quantized = 1,
     .compiled = 1,
-    .graph_config = (void*)&ei_config_tflite_graph_3
+    .graph_config = (void*)&ei_config_tflite_graph_160
 };
 
-const ei_learning_block_config_anomaly_kmeans_t ei_learning_block_config_4 = {
-    .implementation_version = 1,
-    .classification_mode = EI_CLASSIFIER_CLASSIFICATION_MODE_ANOMALY_KMEANS,
-    .anom_axis = ei_classifier_anom_axes,
-    .anom_axes_size = 3,
-    .anom_clusters = ei_classifier_anom_clusters,
-    .anom_cluster_count = 32,
-    .anom_scale = ei_classifier_anom_scale,
-    .anom_mean = ei_classifier_anom_mean,
-};
-
-const uint8_t ei_learning_blocks_size = 2;
-const uint32_t ei_learning_block_3_inputs[1] = { 2 };
-const uint8_t ei_learning_block_3_inputs_size = 1;
-const uint32_t ei_learning_block_4_inputs[1] = { 2 };
-const uint8_t ei_learning_block_4_inputs_size = 1;
+const uint8_t ei_learning_blocks_size = 1;
+const uint32_t ei_learning_block_160_inputs[1] = { 159 };
+const uint8_t ei_learning_block_160_inputs_size = 1;
 const ei_learning_block_t ei_learning_blocks[ei_learning_blocks_size] = {
     {
-        3,
+        160,
         false,
         &run_nn_inference,
-        (void*)&ei_learning_block_config_3,
+        (void*)&ei_learning_block_config_160,
         EI_CLASSIFIER_IMAGE_SCALING_NONE,
-        ei_learning_block_3_inputs,
-        ei_learning_block_3_inputs_size,
-        4
-    },
-    {
-        4,
-        false,
-        &run_kmeans_anomaly,
-        (void*)&ei_learning_block_config_4,
-        EI_CLASSIFIER_IMAGE_SCALING_NONE,
-        ei_learning_block_4_inputs,
-        ei_learning_block_4_inputs_size,
-        1
+        ei_learning_block_160_inputs,
+        ei_learning_block_160_inputs_size,
+        3
     },
 };
 
@@ -148,32 +126,34 @@ const ei_object_detection_nms_config_t ei_object_detection_nms = {
     0.2f  /* NMS IOU threshold */
 };
 
-const ei_impulse_t impulse_167_0 = {
-    .project_id = 167,
-    .project_owner = "Edge Impulse Profiling",
-    .project_name = "Demo: Continuous motion recognition",
-    .impulse_id = 1,
-    .impulse_name = "Impulse #1",
-    .deploy_version = 1,
+const ei_impulse_t impulse_571413_0 = {
+    .project_id = 571413,
+    .project_owner = "Loop Earplugs",
+    .project_name = "baby_cry",
+    .impulse_id = 21,
+    .impulse_name = "Impulse #21 moussa with more speech noise",
+    .deploy_version = 11,
 
-    .nn_input_frame_size = 33,
-    .raw_sample_count = 125,
-    .raw_samples_per_frame = 3,
-    .dsp_input_frame_size = 125 * 3,
+    .nn_input_frame_size = 1235,
+    .raw_sample_count = 8000,
+    .raw_samples_per_frame = 1,
+    .dsp_input_frame_size = 8000 * 1,
     .input_width = 0,
     .input_height = 0,
     .input_frames = 0,
-    .interval_ms = 16,
-    .frequency = 62.5,
+    .interval_ms = 0.0625,
+    .frequency = 16000,
     .dsp_blocks_size = ei_dsp_blocks_size,
     .dsp_blocks = ei_dsp_blocks,
-
+    
     .object_detection_count = 0,
     .fomo_output_size = 0,
+
+    
     .visual_ad_grid_size_x = 0,
     .visual_ad_grid_size_y = 0,
-
-    .tflite_output_features_count = 4,
+    
+    .tflite_output_features_count = 3,
     .learning_blocks_size = ei_learning_blocks_size,
     .learning_blocks = ei_learning_blocks,
 
@@ -182,18 +162,18 @@ const ei_impulse_t impulse_167_0 = {
 
     .inferencing_engine = EI_CLASSIFIER_TFLITE,
 
-    .sensor = EI_CLASSIFIER_SENSOR_ACCELEROMETER,
-    .fusion_string = "accX + accY + accZ",
-    .slice_size = (125/4),
+    .sensor = EI_CLASSIFIER_SENSOR_MICROPHONE,
+    .fusion_string = "audio",
+    .slice_size = (8000/4),
     .slices_per_model_window = 4,
 
-    .has_anomaly = EI_ANOMALY_TYPE_KMEANS,
-    .label_count = 4,
+    .has_anomaly = EI_ANOMALY_TYPE_UNKNOWN,
+    .label_count = 3,
     .categories = ei_classifier_inferencing_categories,
     .object_detection_nms = ei_object_detection_nms
 };
 
-ei_impulse_handle_t impulse_handle_167_0 = ei_impulse_handle_t( &impulse_167_0 );
-ei_impulse_handle_t& ei_default_impulse = impulse_handle_167_0;
+ei_impulse_handle_t impulse_handle_571413_0 = ei_impulse_handle_t( &impulse_571413_0 );
+ei_impulse_handle_t& ei_default_impulse = impulse_handle_571413_0;
 
-#endif // _EI_CLASSIFIER_MODEL_METADATA_H_
+#endif // _EI_CLASSIFIER_MODEL_VARIABLES_H_
