@@ -175,6 +175,7 @@ void ei_start_impulse(bool continuous, bool debug, bool use_max_uart_speed)
     debug_mode = debug;
 
     // summary of inferencing settings (from model_metadata.h)
+    ei_printf("Loop Earplugs & Edge Impulse - Baby cry detection demo\n");
     ei_printf("Inferencing settings:\n");
     ei_printf("\tInterval: %.04fms.\n", (float)EI_CLASSIFIER_INTERVAL_MS);
     ei_printf("\tFrame size: %d\n", EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE);
